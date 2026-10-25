@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 - Unreleased
+## 0.2.0 - 2026-10-25
 
 - Add terminal-first `scan` workflow that indexes a repository and launches its local dashboard URL.
 - Store project indexes and cumulative approximate context usage in `.braingraph/`.
