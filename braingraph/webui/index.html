@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080c12">
+  <title>BrainGraph | Code Intelligence</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="BrainGraph home">
+      <span class="brand-mark"><span></span><span></span><span></span></span>
+      <span>Brain<span class="brand-accent">Graph</span></span>
+      <span class="edition">V2</span>
+    </a>
+    <nav class="top-actions" aria-label="Main navigation">
+      <a href="#ask" class="nav-link"><span class="nav-icon">?</span> AI Context</a>
+      <a href="#graph" class="nav-link"><span class="nav-icon">◈</span> Graph Viewer</a>
+      <a href="/api/docs" target="_blank" rel="noreferrer" class="nav-link"><span class="nav-icon">{ }</span> API</a>
+      <span id="aiStatus" class="ai-status"><i></i><span>Local mode</span></span>
+    </nav>
+  </header>
+
+  <main id="top" class="page-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse-dot"></span><span id="repoState">TERMINAL SCAN READY</span></div>
+        <h1>BrainGraph<br><span>Code Intelligence</span></h1>
+        <p class="hero-description">Your repository, understood as a living map. Scan from any terminal, then explore its code graph and measured context savings here.</p>
+      </div>
+      <div class="repo-control repo-summary"><div class="repo-summary-label"><span class="live-led"></span> CLI-SELECTED PROJECT</div><strong id="repoName">Waiting for terminal scan</strong><code id="repoPath">Run braingraph scan .</code><div class="repo-foot"><span id="repoHint">Start scanning from your project's terminal.</span><span class="repo-command">TERMINAL ONLY</span></div></div>
+    </section>
+
+    <section class="metrics-grid" aria-label="Repository metrics">
+      <article class="metric metric-mint"><div class="metric-top"><span class="metric-icon">▧</span><span class="metric-label">INDEXED FILES</span><span class="metric-delta" id="fileHealth">--</span></div><strong id="fileCount">--</strong><div class="metric-bottom"><span>supported source files</span><span class="metric-line"></span></div></article>
+      <article class="metric metric-cyan"><div class="metric-top"><span class="metric-icon">⌘</span><span class="metric-label">CONTEXT PREPARED</span><span class="metric-delta">TOKEN ESTIMATE</span></div><strong id="usedTokenCount">0</strong><div class="metric-bottom"><span id="requestLabel">0 context requests</span><span class="metric-line"></span></div></article>
+      <article class="metric metric-violet"><div class="metric-top"><span class="metric-icon">◉</span><span class="metric-label">EST. SAVED VS FULL REPO</span><span class="metric-delta">CONTEXT ONLY</span></div><strong id="savingValue">0<small>%</small></strong><div class="metric-bottom"><span id="tokenLabel">0 estimated tokens saved</span><span class="metric-line"></span></div></article>
+      <article class="metric metric-coral"><div class="metric-top"><span class="metric-icon">⌬</span><span class="metric-label">GRAPH NETWORK</span><span class="metric-delta" id="scanTime">--</span></div><strong><span id="nodeCount">--</span><small> / </small><span id="edgeCount">--</span></strong><div class="metric-bottom"><span>nodes / relationships</span><span class="metric-line"></span></div></article>
+    </section>
+
+    <section class="section-heading" id="graph">
+      <div><div class="section-kicker">STRUCTURE / 01</div><h2>Dependency graph</h2></div>
+      <div class="graph-controls">
+        <label class="search-control"><span>⌕</span><input id="graphFilter" placeholder="Filter files or symbols" aria-label="Filter graph"></label>
+        <button id="fitGraph" class="icon-button" type="button" title="Fit graph to view" aria-label="Fit graph to view">⤢</button>
+      </div>
+    </section>
+    <section class="graph-panel">
+      <div class="graph-stage" id="graphStage">
+        <svg id="graphSvg" role="img" aria-label="Interactive repository dependency graph" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet">
+          <defs><pattern id="graphGrid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#252e3a"/></pattern><filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <rect width="100%" height="100%" fill="url(#graphGrid)"/>
+          <g id="graphViewport"></g>
+        </svg>
+        <div id="graphEmpty" class="graph-empty"><div class="empty-glyph">⌬</div><strong>Your code map starts here</strong><span>Run <code>braingraph scan .</code> from the repository terminal.</span></div>
+        <div class="graph-zoom"><button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button><span id="graphNodeLabel">0 shown</span></div>
+      </div>
+      <aside class="graph-rail">
+        <div class="rail-title">GRAPH AT A GLANCE <span>⌬</span></div>
+        <div class="rail-count"><strong id="railEdges">--</strong><span>relationships</span></div>
+        <div class="rail-divider"></div>
+        <div class="rail-title">LANGUAGE MIX</div>
+        <div id="languageLegend" class="language-legend"><span class="muted">Waiting for a scan</span></div>
+        <div class="rail-divider"></div>
+        <div class="rail-title">NODE TYPES</div>
+        <div class="node-legend"><span><i class="legend-dot file-dot"></i>Files</span><span><i class="legend-dot symbol-dot"></i>Symbols</span><span><i class="legend-dot relation-dot"></i>Relations</span></div>
+        <div class="rail-note"><span class="live-led"></span> LOCAL GRAPH / LIVE</div>
+      </aside>
+    </section>
+
+    <section class="section-heading action-heading" id="actions">
+      <div><div class="section-kicker">ASSIST / 02</div><h2>AI actions</h2><p class="section-caption">Choose an action to retrieve relevant repository context first.</p></div>
+      <span class="action-count"><span class="live-led"></span> 5 ACTIONS</span>
+    </section>
+    <section class="action-grid" aria-label="AI actions">
+      <button class="action-card" data-action="explain"><span class="action-glyph glyph-pink">✳</span><strong>Explain this project</strong><span>High-level structure, important files and execution flow.</span><code>RETRIEVAL + AI</code></button>
+      <button class="action-card" data-action="bugs"><span class="action-glyph glyph-orange">ϟ</span><strong>Find possible bugs</strong><span>Trace edge cases, unsafe flows and fragile assumptions.</span><code>SOURCE-GROUNDED REVIEW</code></button>
+      <button class="action-card" data-action="architecture"><span class="action-glyph glyph-amber">▤</span><strong>Summarize architecture</strong><span>See modules, boundaries and their relationships.</span><code>GRAPH + AI CONTEXT</code></button>
+      <button class="action-card" data-action="ask"><span class="action-glyph glyph-lilac">◈</span><strong>Ask about the codebase</strong><span>Get an evidence-backed answer with file references.</span><code>LOCAL RETRIEVAL</code></button>
+      <button class="action-card" data-action="refactor"><span class="action-glyph glyph-orange">ϟ</span><strong>Suggest refactoring</strong><span>Find focused improvements, ranked by context.</span><code>SOURCE-GROUNDED REVIEW</code></button>
+    </section>
+
+    <section class="ask-panel" id="ask">
+      <div class="ask-heading"><div class="ask-mark">BG</div><div><strong>Ask questions over graph memory</strong><span>Answers begin with indexed source, symbols and relationships.</span></div><span id="providerLabel" class="provider-label">LOCAL RETRIEVAL</span></div>
+      <form id="questionForm" class="question-form"><label class="sr-only" for="questionInput">Ask a codebase question</label><textarea id="questionInput" rows="1" placeholder="Where is authentication handled? How does a request flow through the app?" required></textarea><button id="askButton" class="button button-primary" type="submit">Ask BrainGraph <span>↗</span></button></form>
+      <div class="question-examples"><span>TRY</span><button type="button" data-question="Explain the main execution flow">Main execution flow</button><button type="button" data-question="Where are external API calls made?">External API calls</button><button type="button" data-question="Find possible error handling gaps">Error handling gaps</button></div>
+    </section>
+
+    <section id="resultPanel" class="result-panel" hidden>
+      <div class="result-head"><div><div class="section-kicker">RETRIEVED EVIDENCE</div><h2 id="resultTitle">Repository context</h2></div><button id="clearResult" class="icon-button" type="button" title="Close results" aria-label="Close results">×</button></div>
+      <div class="result-meta"><span id="resultMetric">--</span><span id="resultFiles">No files</span></div>
+      <div id="resultBody" class="result-body"></div>
+      <div id="citationList" class="citation-list"></div>
+    </section>
+
+    <section class="bottom-grid">
+      <article class="diagnostics-panel">
+        <div class="panel-heading"><div><div class="section-kicker">HEALTH / 03</div><h2>Repository diagnostics</h2></div><span id="diagnosticBadge" class="small-badge">--</span></div>
+        <div id="diagnosticsList" class="diagnostics-list"><div class="empty-inline"><span>○</span> Scan a repository to inspect indexing diagnostics.</div></div>
+      </article>
+      <article class="token-panel">
+        <div class="panel-heading"><div><div class="section-kicker">CONTEXT / 04</div><h2>Token comparison</h2></div><span class="small-badge measured-badge">MEASURED</span></div>
+        <div class="token-bars"><div class="token-row"><span>Full indexed source</span><strong id="rawTokenCount">--</strong><div class="bar-track"><i id="rawBar"></i></div></div><div class="token-row"><span>Retrieved context</span><strong id="optimizedTokenCount">--</strong><div class="bar-track"><i id="optimizedBar"></i></div></div></div>
+        <p id="tokenNote" class="token-note">Cumulative estimates compare full indexed-source tokens per non-empty retrieval with the context BrainGraph prepared. Prompt overhead and provider billing tokens are not included.</p>
+      </article>
+    </section>
+    <footer class="footer"><span>BrainGraph V2 <i></i> Local-first code intelligence</span><span id="footerRepo">No repository selected</span><a href="https://github.com/Dislike12/BrainGraph" target="_blank" rel="noreferrer">V1 source</a></footer>
+  </main>
+  <dialog id="sourceDialog" class="source-dialog"><div class="source-head"><div><span class="section-kicker">SOURCE PREVIEW</span><strong id="sourcePath">file.py</strong></div><button id="closeSource" class="icon-button" aria-label="Close source preview">×</button></div><pre id="sourceCode"></pre></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/assets/app.js" defer></script>
+</body>
+</html>

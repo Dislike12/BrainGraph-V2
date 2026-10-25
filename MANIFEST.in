@@ -1,0 +1,3 @@
+include CHANGELOG.md
+include QUALITY_AUDIT.md
+include RELEASING.md
