@@ -26,11 +26,23 @@ The project name `braingraph` is already registered on PyPI. PyPI currently list
 Before publishing the first GitHub release, an owner of the existing PyPI project must configure a trusted publisher for:
 
 - PyPI project: `braingraph`
-- GitHub owner/repository: `Dislike12/BrainGraph-V2`
+- GitHub owner: `Dislike12`
+- GitHub repository: `BrainGraph-V2`
 - Workflow filename: `.github/workflows/publish.yml`
 - GitHub environment: `pypi`
 
 The workflow runs tests, lint, builds and checks both distributions, then requests a short-lived OIDC publishing identity from PyPI. It runs only when a GitHub Release is published. No PyPI API token is stored in the source tree. The publisher configuration must be set up by an account authorized for the existing PyPI project.
+
+### First publish troubleshooting
+
+The first `v0.2.0` GitHub Release run completed build, tests, lint, and `twine check` successfully, but PyPI rejected OIDC with `invalid-publisher` / `no corresponding publisher`. The GitHub OIDC claims were:
+
+- subject: `repo:Dislike12/BrainGraph-V2:environment:pypi`
+- workflow: `Dislike12/BrainGraph-V2/.github/workflows/publish.yml`
+- environment: `pypi`
+- tag ref: `refs/tags/v0.2.0`
+
+The PyPI project owner must register a trusted publisher matching those repository, workflow, and environment values. After it is configured, rerun the failed `Publish to PyPI` GitHub Actions run or republish the existing GitHub Release. Do not create a different package name or version just to work around a missing publisher configuration.
 
 ## Manual alternative
 
